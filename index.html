@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Bot</title>
+</head>
+<body>
+    <h1>Send a Message to Telegram Bot</h1>
+    <form id="telegramForm">
+        <label for="message">Message:</label>
+        <input type="text" id="message" name="message" required>
+        <button type="submit">Send Message</button>
+    </form>
+
+    <script>
+        // Your API Key
+        const BOT_API_KEY = "7834200542:AAGGfqh0CdWM_nYczuSjNEj-x9H4buJOfMU";
+        const CHAT_ID = "6707878533"; // Replace with your Telegram chat ID
+
+        document.getElementById("telegramForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const message = document.getElementById("message").value;
+
+            // Telegram API URL
+            const url = `https://api.telegram.org/bot${BOT_API_KEY}/sendMessage`;
+
+            // Data to send
+            const data = {
+                chat_id: CHAT_ID,
+                text: message
+            };
+
+            // Send a POST request using Fetch API
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.ok) {
+                    alert("Message sent successfully!");
+                } else {
+                    alert("Failed to send message. Error: " + result.description);
+                }
+            })
+            .catch(error => {
+                console.error("Error sending message:", error);
+                alert("An error occurred while sending the message.");
+            });
+        });
+    </script>
+</body>
+</html>
